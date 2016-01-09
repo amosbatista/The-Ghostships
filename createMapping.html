@@ -39,18 +39,21 @@
 				 </g>
 			</svg>	
 		</main>
-		<form method="POST" action="http://theghostships.com/SalvarEpisodio.aspx" id="form_submit"> 
+		<!--<form method="POST" action="http://theghostships.com/SalvarEpisodio.aspx" id="form_submit"> -->
+		<form method="POST" action="http://localhost:3472/SalvarEpisodio.aspx" id="form_submit">
+		
+		<!-- Map list zone -->
+		<div id="mapZone">
+		
+		</div>
+		<!-- Map list zone -->
+		
 		<p>
 			<p>Set the prologue</p>
 			<textarea id="prologue" rows="10" cols="10">
 			</textarea>
 		</p>
-		
-		<p>
-
-			<p><input type="radio" id="rdoIdiom" name="rdoIdiom" value="en">English<br>
-			<input type="radio" id="rdoIdiom" name="rdoIdiom" value="pt">Portugues</p>
-		</p>
+	
 		<p>
 			<p>Set a Number to this episode</p>
 			<input id="txtEpisodeNumber" type="text">
@@ -69,17 +72,19 @@
 			<p><input type="radio" id="rdoTransitionType" name="rdoTransitionType" value="normal" checked>Normal speed transition</p>
 			<p><input type="radio" id="rdoTransitionType" name="rdoTransitionType" value="fast">Fast speed transition</p>
 		</p>
+		
+
+
+			
 		<p>
 			<button id="btnCreateMap" type="button" onclick="AddPageMap();">
 				Add new map to this page
 			</button>
-		</p>
-		<p>
+
 			<button id="btnCreateMap" type="button" onclick="AddPageToEpisode();">
 				Add page
 			</button>
-		</p>
-		<p>
+			
 			<button id="btnFinishMapping" type="button" onclick="FinishMap();">
 				Finish mapping episode
 			</button>
@@ -87,12 +92,10 @@
 		
 		
 		<div>
-			<p id="LBLResult"></p>
+			<p font-size="1.9E" id="LBLResult"></p>
 		</div>
 		<!--Inputo to transfer the JSON Episode to the server-->
-		<input type="hidden" id="episodeNumber" name="episodeNumber" value="">
-		<input type="hidden" id="idiom" name="idiom" value="">
-		<input type="hidden" id="jsonContent" name="jsonContent" value="">
+		<input type="hidden" id="episode" name="episode" value="">
 		</form>
 	</body>
 </html>

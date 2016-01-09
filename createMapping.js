@@ -34,6 +34,15 @@ function _page (path) {
 	this.AddMap = function(newMap){
 		this.maps.push(newMap);
 	}
+	this.GetMap = function(mapNumber){
+		return this.maps[mapNumber - 1];
+	}	
+	this.SetMap = function(mapNumber, newMap){
+		this.maps[mapNumber - 1] = newMap;
+	}	
+	this.GetMapCount = function(){
+		return this.maps.length;
+	}	
 }
 
 function init(){
@@ -64,14 +73,17 @@ function init(){
 	
 	ChangeMap();
 	document.getElementById("prologue").value = "";
+	
+	document.addEventListener("keydown", ChangeMapByPress, false);
 }
 function startNewEpisode(){
-	actualEpisode = new _episode(document.getElementById("txtEpisodeNumber").value, document.getElementById("rdoIdiom").value, document.getElementById("prologue").value);
+	actualEpisode = new _episode(document.getElementById("txtEpisodeNumber").value, "en", document.getElementById("prologue").value);
 	DOMParaghResult.innerText = "A new episode has been created, and the map cleared";
 }
 function loadImageFromPath(){
 	actualPage = new _page(DOMTxtFilePath.value);
 	setImagePath(DOMTxtFilePath.value);
+	ClearMapList();
 	DOMParaghResult.innerText = "A new map has begun.";
 }
 function setImagePath(imagePath){
@@ -80,13 +92,15 @@ function setImagePath(imagePath){
 
 function RaiseScale(){
 	imgCurrentScale = imgCurrentScale * fatorZoom;
+	LowX();
+	LowY()
 	ChangeMap();
 }
 function LowScale(){
 	imgCurrentScale = imgCurrentScale / fatorZoom;
 	// Setting a scroll to compesating the zoom
 	RaiseX();
-	LowY();
+	RaiseY();
 	ChangeMap();
 }
 function RaiseX(){
@@ -122,6 +136,7 @@ function AddPageMap(){
 	var DOMRdoTransitionType = document.getElementById("rdoTransitionType");
 	var newMap = new _map(imgX,imgY, imgCurrentScale, DOMRdoTransitionType.value);
 	actualPage.AddMap(newMap);
+	createNewMap_ToList(actualPage.GetMapCount());
 	DOMParaghResult.innerText = "This position map has been setted to this page. Keep adding!";
 }
 function AddPageToEpisode(){
@@ -133,9 +148,7 @@ function AddPageToEpisode(){
 function FinishMap(){
 
 	var form = document.getElementById("form_submit");
-	document.getElementById("episodeNumber").value = actualEpisode.episodenumber;
-	document.getElementById("idiom").value = actualEpisode.idiom;
-	document.getElementById("jsonContent").value = JSON.stringify(actualEpisode);
+	document.getElementById("episode").value = JSON.stringify(actualEpisode);
 	form.submit();
 	
 	DOMParaghResult.innerText = "Episode Done!!!!!";
@@ -146,6 +159,7 @@ function SetImageViewByMap(x,y,scale){
 }
 function ChangeMap(){
 	SetImageViewByMap(imgX,imgY,imgCurrentScale);
+	DOMParaghResult.innerText = "Altering map. Press map to set the new position.";
 	//setTextFields(imgX,imgY,imgCurrentScale);
 }
 function setTextFields(x,y,scale){
@@ -164,4 +178,105 @@ function SetXManually(){
 function SetYManuallY(){
 	imgY = DOMTxtY.value;
 	ChangeMap();
+}
+
+function ChangeMapByPress(evt){
+	if(evt.keyCode == 37) //Right
+		RaiseX();
+	if(evt.keyCode == 39) // Left
+		LowX();
+	if(evt.keyCode == 38) // Up
+		RaiseY();
+	if(evt.keyCode == 40) // Down
+		LowY();
+	if(evt.keyCode == 107) // +
+		RaiseScale();
+	if(evt.keyCode == 109) // -
+		LowScale();
+		
+	// Set the scroll always on the top, when get a flag
+	if ((evt.keyCode >= 37 && evt.keyCode <= 40) || (evt.keyCode == 107 || evt.keyCode == 109))
+		document.scrollingElement.scrollTop = 0; 
+}
+
+function createNewMap_ToList(mapNumber){
+	// Getting the parend element to div
+	var divMapZone = document.getElementById("mapZone");
+	
+	// Creating the paragraph element to the page
+	var p_mapElement = document.createElement("p");
+	
+	// Setting the ID
+	p_mapElement.setAttribute ("id","mapItem_" + mapNumber);
+
+	// Creating a input hidden element
+	var inputElement = document.createElement ("input");
+	inputElement.setAttribute("type", "hidden");
+	inputElement.setAttribute("id", "mapNumber_" + mapNumber);
+	inputElement.setAttribute("value", mapNumber);
+	
+	// Append to the paragraph
+	p_mapElement.appendChild(inputElement);
+	
+	// Setting the caption 
+	var txtLabelMapNumber = document.createTextNode(mapNumber + " - ");
+	p_mapElement.appendChild(txtLabelMapNumber);
+	
+	// Creating the Test button
+	var buttonViewMap = document.createElement("button");
+	buttonViewMap.setAttribute("id", "btnTestMap_" + mapNumber);
+	buttonViewMap.setAttribute("type", "button");
+	buttonViewMap.setAttribute("onclick", "TestMap(" + mapNumber + ");");
+	
+	// Creating text button label
+	var txtLabelButtonTestMap = document.createTextNode("Test map " + mapNumber);
+	buttonViewMap.appendChild(txtLabelButtonTestMap);
+	p_mapElement.appendChild(buttonViewMap);
+	
+	// Creating the edit button
+	var buttonEditMap = document.createElement("button");
+	buttonEditMap.setAttribute("id", "btnEditMap_" + mapNumber);
+	buttonEditMap.setAttribute("type", "button");
+	buttonEditMap.setAttribute("onclick", "EditMap(" + mapNumber + ");");
+	
+	// Creating text button label
+	var txtLabelButtonEditMap = document.createTextNode("Edit map " + mapNumber);
+	buttonEditMap.appendChild(txtLabelButtonEditMap);
+	p_mapElement.appendChild(buttonEditMap);
+	
+	// Appending element to the div
+	divMapZone.appendChild(p_mapElement);
+	
+}
+
+function ClearMapList(){
+	// Getting the parend element to div
+	var divMapZone = document.getElementById("mapZone");
+	
+	var childElementCount;
+	var listCount = divMapZone.childNodes.length;
+	
+	// Listing all itens in the map
+	for (childElementCount = 0; childElementCount < listCount; childElementCount++ ){
+		divMapZone.removeChild(divMapZone.childNodes[0]);
+	}
+}
+
+function TestMap(mapNumber){
+	imgX = actualPage.GetMap(mapNumber).x;
+	imgY = actualPage.GetMap(mapNumber).y;
+	imgCurrentScale = actualPage.GetMap(mapNumber).scale;
+	
+	// Reflect the changes to the image
+	ChangeMap();
+	
+	DOMParaghResult.innerText = "The visualization has been changed.";
+}
+
+function EditMap(mapNumber){
+	var DOMRdoTransitionType = document.getElementById("rdoTransitionType");
+	var newMap = new _map(imgX,imgY, imgCurrentScale, DOMRdoTransitionType.value);
+	actualPage.SetMap(mapNumber, newMap);
+	
+	DOMParaghResult.innerText = "The map " + mapNumber + " has been changed.";
 }

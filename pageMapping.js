@@ -137,18 +137,18 @@ function ChangeMapByClick(evt){
 	if (GetAction(evt) == "AHEAD"){
 		
 		// See if the limit of page
-		if(currentMapNumber < currentEpisode.pages[currentPage].maps.length - 1){
+		if(currentMapNumber < currentEpisode.Pages[currentPage].Maps.length - 1){
 		//When its possible to change to next map, increment counter and set the map to image
 			currentMapNumber++;
-			SetImageViewByMap(currentEpisode.pages[currentPage].maps[currentMapNumber]);
+			SetImageViewByMap(currentEpisode.Pages[currentPage].Maps[currentMapNumber]);
 		}
 		else{
 			// Trying to move to another page, to the first map
-			if(currentPage < currentEpisode.pages.length - 1){
+			if(currentPage < currentEpisode.Pages.length - 1){
 				currentPage++;
 				currentMapNumber = 0;
-				LoadPageToSVG(currentEpisode.pages[currentPage].path);		
-				SetImageViewByMap(currentEpisode.pages[currentPage].maps[currentMapNumber]);
+				LoadPageToSVG(currentEpisode.Pages[currentPage].Path);		
+				SetImageViewByMap(currentEpisode.Pages[currentPage].Maps[currentMapNumber]);
 			}
 			else{
 			    // If in the limit of the pages, load the next episode
@@ -168,15 +168,15 @@ function ChangeMapByClick(evt){
 		if(currentMapNumber >= 1){
 		//When its possible to change to last map, decrement counter and set the map to image
 			currentMapNumber--;
-			SetImageViewByMap(currentEpisode.pages[currentPage].maps[currentMapNumber]);
+			SetImageViewByMap(currentEpisode.Pages[currentPage].Maps[currentMapNumber]);
 		}
 		else{
 			// Trying to move to another page, to the last map
 			if(currentPage >= 1){
 				currentPage--;
-				currentMapNumber = currentEpisode.pages[currentPage].maps.length - 1;
-				LoadPageToSVG(currentEpisode.pages[currentPage].path);		
-				SetImageViewByMap(currentEpisode.pages[currentPage].maps[currentMapNumber]);
+				currentMapNumber = currentEpisode.Pages[currentPage].Maps.length - 1;
+				LoadPageToSVG(currentEpisode.Pages[currentPage].Path);		
+				SetImageViewByMap(currentEpisode.Pages[currentPage].Maps[currentMapNumber]);
 			}
 			else{
 				// If in the start of the pages, load the last episode
@@ -203,7 +203,7 @@ function ChangeMapByClick(evt){
 
 // Function that return True if the first image is a image error, or false, if it's normal
 function ReturnIfImageError() {
-    if (currentEpisode.pages[0].path.search("img_warning") > 0)
+    if (currentEpisode.Pages[0].Path.search("img_warning") > 0)
         return true;
     else
         return false;
@@ -260,11 +260,11 @@ function LoadEpisode(episodeNumber){
 
             // Loading the first page of this episode
             currentPage = 0;
-            LoadPageToSVG(currentEpisode.pages[currentPage].path);
+            LoadPageToSVG(currentEpisode.Pages[currentPage].Path);
 
             //Setting first map
             currentMapNumber = 0;
-            SetImageViewByMap(currentEpisode.pages[currentPage].maps[currentMapNumber]);
+            SetImageViewByMap(currentEpisode.Pages[currentPage].Maps[currentMapNumber]);
 
             // Finishing the transition and return the background to finish
             startFadeOut = 1;
@@ -284,30 +284,30 @@ function MoveToFirstPage(){
 	// Setting the page map and load
 	currentPage = 0;
 	currentMapNumber = 0;
-	LoadPageToSVG(currentEpisode.pages[currentPage].path);		
-	SetImageViewByMap(currentEpisode.pages[currentPage].maps[currentMapNumber]);	
+	LoadPageToSVG(currentEpisode.Pages[currentPage].Path);		
+	SetImageViewByMap(currentEpisode.Pages[currentPage].Maps[currentMapNumber]);	
 }
 function MoveToLastPage(){
 	// Setting the page map and load
-	currentPage = currentEpisode.pages.length - 1;
+	currentPage = currentEpisode.Pages.length - 1;
 	currentMapNumber = 0;
-	LoadPageToSVG(currentEpisode.pages[currentPage].path);		
-	SetImageViewByMap(currentEpisode.pages[currentPage].maps[currentMapNumber]);	
+	LoadPageToSVG(currentEpisode.Pages[currentPage].Path);		
+	SetImageViewByMap(currentEpisode.Pages[currentPage].Maps[currentMapNumber]);	
 }
 function MoveToPrevPage(){
 	if(currentPage >= 1){
 		currentPage--;
 		currentMapNumber = 0;
-		LoadPageToSVG(currentEpisode.pages[currentPage].path);		
-		SetImageViewByMap(currentEpisode.pages[currentPage].maps[currentMapNumber]);
+		LoadPageToSVG(currentEpisode.Pages[currentPage].Path);		
+		SetImageViewByMap(currentEpisode.Pages[currentPage].Maps[currentMapNumber]);
 	}	
 }
 function MoveToNextPage(){
-	if(currentPage < currentEpisode.pages.length - 1){
+	if(currentPage < currentEpisode.Pages.length - 1){
 		currentPage++;
 		currentMapNumber = 0;
-		LoadPageToSVG(currentEpisode.pages[currentPage].path);		
-		SetImageViewByMap(currentEpisode.pages[currentPage].maps[currentMapNumber]);
+		LoadPageToSVG(currentEpisode.Pages[currentPage].Path);		
+		SetImageViewByMap(currentEpisode.Pages[currentPage].Maps[currentMapNumber]);
 	}
 }
 
@@ -316,29 +316,29 @@ function SetImageViewByMap(map){
 	if (actualMap_x == undefined){ // If it's the first time map, set the last time and go directly to the map
 	//if (true){ // If it's the first time map, set the last time and go directly to the map
 	
-		actualMap_x = map.x;
-		actualMap_y = map.y;
-		actualMap_scale = map.scale;
-		SetImageView(map.x, map.y ,map.scale);
+		actualMap_x = map.X;
+		actualMap_y = map.Y;
+		actualMap_scale = map.Scale;
+		SetImageView(map.X, map.Y ,map.Scale);
 	}
 	else{
 
 		if (resquestMapTransationID == null)	
 			resquestMapTransationID = setInterval(function (){
 				
-				if (actualMap_x == currentEpisode.pages[currentPage].maps[currentMapNumber].x && actualMap_y == currentEpisode.pages[currentPage].maps[currentMapNumber].y && actualMap_scale.toFixed(2) == currentEpisode.pages[currentPage].maps[currentMapNumber].scale.toFixed(2)){ // Stop the animation when all the parameters get the same of the map destiny
+				if (actualMap_x == currentEpisode.Pages[currentPage].Maps[currentMapNumber].X && actualMap_y == currentEpisode.Pages[currentPage].Maps[currentMapNumber].Y && actualMap_scale.toFixed(2) == currentEpisode.Pages[currentPage].Maps[currentMapNumber].Scale.toFixed(2)){ // Stop the animation when all the parameters get the same of the map destiny
 					clearInterval(resquestMapTransationID);
 					resquestMapTransationID = null;
 					return;
 				}
 				// Setting the values of the local variables, configurating its values. 
-				var _x = parseInt(currentEpisode.pages[currentPage].maps[currentMapNumber].x);
-				var _y = parseInt(currentEpisode.pages[currentPage].maps[currentMapNumber].y);
-				actualMap_x = CalculateTransition(actualMap_x, _x, currentEpisode.pages[currentPage].maps[currentMapNumber].transitionType);
-				actualMap_y = CalculateTransition(actualMap_y, _y, currentEpisode.pages[currentPage].maps[currentMapNumber].transitionType);
-				//actualMap_scale = CalculateScaleTransition(actualMap_scale, currentEpisode.pages[currentPage].maps[currentMapNumber].scale, currentEpisode.pages[currentPage].maps[currentMapNumber].transitionType);
+				var _x = parseInt(currentEpisode.Pages[currentPage].Maps[currentMapNumber].X);
+				var _y = parseInt(currentEpisode.Pages[currentPage].Maps[currentMapNumber].Y);
+				actualMap_x = CalculateTransition(actualMap_x, _x, currentEpisode.Pages[currentPage].Maps[currentMapNumber].transitionType);
+				actualMap_y = CalculateTransition(actualMap_y, _y, currentEpisode.Pages[currentPage].Maps[currentMapNumber].transitionType);
+				//actualMap_scale = CalculateScaleTransition(actualMap_scale, currentEpisode.Pages[currentPage].Maps[currentMapNumber].Scale, currentEpisode.Pages[currentPage].Maps[currentMapNumber].transitionType);
 				// As the scale() transition is very slow, I'll setup the scale level once.
-				actualMap_scale = currentEpisode.pages[currentPage].maps[currentMapNumber].scale;
+				actualMap_scale = currentEpisode.Pages[currentPage].Maps[currentMapNumber].Scale;
 				
 				// Setting the image scale, with the new values setted
 				SetImageView(actualMap_x, actualMap_y, actualMap_scale);
@@ -400,8 +400,8 @@ function GetInitialIdiom(){
 // Function to load a page
 function LoadPageToSVG(imagePath){
 
-	// Setting image path
-	DOMPageContentList[0].setAttribute("xlink:href", imagePath);
+	// Setting image path. Here, the image path will be replaced with the path of the current translation folder
+	DOMPageContentList[0].setAttribute("xlink:href", imagePath.replace("en", currentIdiom));
 	DOMPageContentList[0] = document.getElementById("myImage");
 	
 	// Setting the image download link
@@ -436,8 +436,9 @@ function ChangeIdiom(){
 	// Set all the text content to the current idiom
 	setCaptionsFromTranslation();
 	
-	// Loading the episode again, in the same page
-	LoadEpisode(episodeNumber);
+	// Loading the image again. After the change of idiom, the path of the image will set, changing the current "en" folder to the current idiom
+	LoadPageToSVG(currentEpisode.Pages[currentPage].Path);		
+	SetImageViewByMap(currentEpisode.Pages[currentPage].Maps[currentMapNumber]);	
 			
 }
 
