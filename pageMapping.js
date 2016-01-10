@@ -8,7 +8,7 @@ var DOMarrow_movePrevMap;
 var greyBackground;
 var svgObject;
 var DIV_SgvHolder;
-
+var DOMLogo_LoadTransict;
 var currentMapNumber;
 var actualMap_x;
 var actualMap_y;
@@ -20,7 +20,8 @@ var currentIdiom;
 var currentPage;
 var resquestMapTransationID = null; 
 var loadPageTransitionID = null;
-var startFadeOut = 0;
+var animLogoTransitionID = null;
+var imageLoaded = 0;
 
 var jSonRequisition;
 
@@ -40,6 +41,7 @@ function initPage(){
 	greyBackground = document.getElementById("background_Load_Info");
 	DOMarrow_moveNextMap = document.getElementById("arrow_moveNextMap");
 	DOMarrow_movePrevMap = document.getElementById("arrow_movePrevMap");
+	DOMLogo_LoadTransict = document.getElementById("logo_loadTransition");
 	svgObject = document.getElementById("svgRegion");
 	DIV_SgvHolder = document.getElementById("div_svgHolder");
 	
@@ -71,7 +73,7 @@ function initPage(){
 	
 	// Adding the event OnLoad to the image, to detect when load is finished. On OnLoad, execute a function that flag when stop the animation
 	DOMPageContentList[0].addEventListener("load", function(){
-		startFadeOut = 1;
+		imageLoaded = 1;
 	}, false);	
 	
 	document.addEventListener("keydown", ChangeMapByClick, false);
@@ -267,7 +269,7 @@ function LoadEpisode(episodeNumber){
             SetImageViewByMap(currentEpisode.Pages[currentPage].Maps[currentMapNumber]);
 
             // Finishing the transition and return the background to finish
-            startFadeOut = 1;
+            imageLoaded = 1;
         }
     }
 	var urlComicsServer = dominio + "/CarregarEpisodio.aspx?episodeNumber=" + episodeNumber + "&idiom=" + currentIdiom;
@@ -276,6 +278,7 @@ function LoadEpisode(episodeNumber){
 	
 	// Inicializing the animation process
 	bgFadeIn();
+	AnimateLogo();
 	
 }
  
@@ -363,7 +366,7 @@ function CalculateTransition(parameter, destinyParameter, TransitionSpeed){
 	
 }
 
-// Function that are the same of abive, but calculates a decimal valor
+// Function that are the same of above, but calculates a decimal valor
 function CalculateScaleTransition(parameter, destinyParameter, TransitionSpeed){
 	// Setting the transition speed
 	if(TransitionSpeed == "fast-background")
@@ -407,8 +410,11 @@ function LoadPageToSVG(imagePath){
 	// Setting the image download link
 	document.getElementById("link_openPage").setAttribute("href", imagePath);
 	
-	// Start of the transition
-	bgFadeIn();
+	// Start of the transition. Only start if there's no image upload now
+	if (imageLoaded == 1){
+		bgFadeIn();
+		AnimateLogo();
+	}
 	
 }
 
@@ -466,7 +472,7 @@ function bgFadeIn(){
 	var bgTransparency = 0.0;
 	
 	// Set the indication of fade-in to 0;
-	startFadeOut = 0;
+	imageLoaded = 0;
 	
 	// Putting the background above the image
 	greyBackground.parentNode.appendChild(greyBackground);
@@ -479,7 +485,7 @@ function bgFadeIn(){
 		loadPageTransitionID = setInterval(function (){
 		
 			// Finish the animation when the process finish
-			if( startFadeOut == 1 ){
+			if( imageLoaded == 1 ){
 				
 				// When detect the load, generate the reverse animation. Return the original transparency.
 				if ( roundValueToDigits(bgTransparency) >= 1.0 && roundValueToDigits(bgTransparency) <= 1.0  ) // Workarround when transaparency get a big value
@@ -498,7 +504,7 @@ function bgFadeIn(){
 					DOMPageContentList[0].parentNode.appendChild(DOMPageContentList[0]);
 					DOMarrow_moveNextMap.parentNode.appendChild(DOMarrow_moveNextMap);
 					DOMarrow_movePrevMap.parentNode.appendChild(DOMarrow_movePrevMap);
-					
+
 					clearInterval(loadPageTransitionID);
 					loadPageTransitionID = null;
 					return;
@@ -588,3 +594,44 @@ function LoadStringRepository(){
 	jSonRequisition_stringRep.send();
 }
 
+// Function that execute the logo animation, during loading
+function AnimateLogo(){
+
+	var bgTransparency = 0.00;
+	var animateProcess = "";
+	
+	// Starting the animation
+	if (animLogoTransitionID == null){
+		// Start the animation
+		animLogoTransitionID = setInterval(function (){
+			
+			// Ending the animation, when the image has been loaded
+			if( imageLoaded == 1){
+			
+				clearInterval(animLogoTransitionID);
+				animLogoTransitionID = null;
+				DOMLogo_LoadTransict.setAttribute ("opacity", 0.0);	
+				return;
+			}
+			else{ // Continuing with animation
+				// Putting the logo in the front
+				DOMLogo_LoadTransict.parentNode.appendChild(DOMLogo_LoadTransict);
+				
+				// Setting the transparency of the logo. If the logo gets transparent, return to the visibility and vice-versa
+				if ( bgTransparency <= 0.00 ) // Raise the opacity
+					animateProcess = "lessTransp";
+				if ( bgTransparency >= 0.75 )
+					animateProcess = "moreTransp"; // Lower the opacity
+				
+				// Now, setting the values
+				if (animateProcess == "lessTransp")
+					bgTransparency = CalculateScaleTransition (bgTransparency, 0.75, "fast-background");
+				if (animateProcess == "moreTransp")
+					bgTransparency = CalculateScaleTransition (bgTransparency, 0.00, "fast-background");
+					
+				// And, setting the value to the logo
+				DOMLogo_LoadTransict.setAttribute ("opacity", bgTransparency);	
+			}
+		}, 40);
+	}
+}
