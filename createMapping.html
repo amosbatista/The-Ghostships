@@ -39,15 +39,22 @@
 				 </g>
 			</svg>	
 		</main>
-		<!--<form method="POST" action="http://theghostships.com/SalvarEpisodio.aspx" id="form_submit"> -->
-		<form method="POST" action="http://localhost:3472/SalvarEpisodio.aspx" id="form_submit">
+		<form method="POST" action="http://theghostships.com/SalvarEpisodio.aspx" id="form_submit">
 		
 		<!-- Map list zone -->
 		<div id="mapZone">
 		
 		</div>
 		<!-- Map list zone -->
-		
+		<p>
+			<input type="text" id="episodeImagePath" value="">
+			<button type="button" onClick="loadEpisodeImageFromPath();">Set the episode banner.</button>
+		</p>
+		<img id="episodeHeader" src="aa" />
+		<p>
+			<p>Set the title</p>
+			<input id="txttitle" type="text" />
+		</p>
 		<p>
 			<p>Set the prologue</p>
 			<textarea id="prologue" rows="10" cols="10">

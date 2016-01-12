@@ -14,9 +14,7 @@ body{
 	font-size: 100%;
 }
 main{
-	border: solid 2px;
 	width: 57%;
-	border-color: black;
 	margin: auto;
 	position: relative;	
 }
@@ -39,25 +37,67 @@ p{
 	border: solid 2px;
 	position: relative;
 }
-
-/*Classes*/
-.leftBar, .rightBar{
-	height: 500px;
-	width: 10%;
-	position: relative;
+#svgRegion{
+	z-index: 0;
+	border: solid 2px;
+	border-color: black;
 }
-.leftBar{
-	float:left;
+#lblActName{
+	text-align: right;
+	font-size: 4.2EM;
+	padding: 0;
+	margin: 0;
+	font-family: 'Stoke', serif;
+	font-style: italic;
 }
-.rightBar{
-	float:right;
+#lblActNumber{
+	text-align: right;
+	font-size: 1.5EM;
+	padding: 0;
+	margin: 0;
+	font-family: 'Stoke', serif;
 }
-img.imgSideBar{
+#imgLogo{
 	margin: 0;
     padding: 0;
 	width: 100%;
-	padding-bottom: 15%;
+	border: solid 2px #7789aa;
+}
+
+/*Classes*/
+.leftBar, .rightBar{
+	height: 1000px;
+	position: relative;
+}
+.leftBar{
+	width: 15%;
+	float:left;
+}
+.rightBar{
+	width: 10%;
+	float:right;
+}
+img.imgSideBar, img.imgEpisodeLogo{
+	margin: 0;
+    padding: 0;
+	width: 100%;
+	opacity: 0.5;
+	transition: opacity 1.0s;
 }	
+img.imgEpisodeLogo:hover{
+	opacity: 1.0;
+}
+img.imgSideBar:hover{
+	opacity: 1.0;
+}
+img.imgSideBar{
+	padding-bottom: 15%;
+}
+img.imgEpisodeLogo{
+	border-bottom: 5px solid white;
+	padding: 0;
+	background-color: white;
+}
 div.fb-like{
 	padding: 5%;
 	border: solid 1px grey;
@@ -73,6 +113,7 @@ div.subPage{
     left: 1%;
 	z-index: -1;
 	boxShadow: 5px 5px 5px #badeff;
+	opacity: 0.0; /* Set the div transparent, to bring it visible after*/
 }
 div.svgHolder{
 	position: relative;		/*This Div keep the size of the Image element*/
@@ -93,8 +134,8 @@ p.tutorial, p.close_Button{
 	text-align: center;
 	font-size: 1.1EM;
 	word-spacing: 1px;
-	padding-left: 1%;
-	padding-right: 1%;
+	margin-left: 10%;
+	margin-right: 10%;
 }
 p.close_Button{
 	margin-bottom: 3%;
@@ -116,7 +157,7 @@ p.about{
 }
 p.about_title{
 	text-align: left;
-	font-size: 3.0EM;
+	font-size: 2.9EM;
 	font-variant: small-caps;
 }
 

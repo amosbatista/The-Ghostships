@@ -6,7 +6,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO_8859-9:1989" />
 		<link rel="stylesheet" type="text/css" href="mystyle.css" />
 		<link href='https://fonts.googleapis.com/css?family=Vollkorn|PT+Serif' rel='stylesheet' type='text/css'>
-		
+		<link rel="shortcut icon" href="img\avatar_Lumi_comic.ico">
 		
 		<meta property="og:url"           content="http://theghostships.com" />
 		<meta property="og:type"          content="website" />
@@ -24,7 +24,8 @@
 		        js = d.createElement(s); js.id = id;
 		        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=268467563167452";
 		        fjs.parentNode.insertBefore(js, fjs);
-		    } (document, 'script', 'facebook-jssdk'));</script>
+		    } (document, 'script', 'facebook-jssdk'));
+		</script>
 
         <!-- Script Google Analytics-->	
         <script>
@@ -46,9 +47,8 @@
 		
 		<nav class="leftBar">
 			<a href="">
-				<img class="imgSideBar" src="img\logo.jpg" alt="Ghostships">
+				<img id="imgLogo" src="img\logo.jpg" alt="Ghostships">
 			</a>
-			<div class="fb-like" data-href="https://www.facebook.com/Ghostships-1183663534992618" data-width="150" data-layout="box_count" data-action="like" data-show-faces="true" data-share="true"></div>
 			
 			<!-- Navigation to another pages -->
 			<a href="javascript:void(0);" onClick="CallAboutPage();">
@@ -74,15 +74,20 @@
 					Contact
 				</p>
 			</a>
-			
+			<div class="fb-like" data-href="https://www.facebook.com/Ghostships-1183663534992618" data-width="150" data-layout="box_count" data-action="like" data-show-faces="true" data-share="true"></div>
 			
 		</nav>
 		
 		<aside class="rightBar">
 			<p class="labels" id="lblIdiom">Ler em Português</p>
-			<img class="imgSideBar" id="logo_idiom" src="img\idiom_pt.jpg" alt="Ghostships" /> <!-- O idioma configurado aqui é inverso ao configurado no início;-->
-			<p class="labels" id="lblEpisode">Select an episode</p>
-			<img class="imgSideBar" src="img\logo_cap1.jpg" alt="Episode 1" />
+			<a href="javascript:void(0);">
+				<img class="imgSideBar" id="logo_idiom" src="img\idiom_pt.jpg" alt="Ghostships" />
+			</a> <!-- O idioma configurado aqui é inverso ao configurado no início;-->
+			<p class="labels" id="lblEpisode">Select an episode:</p>
+			
+			<div id="episodeListHolder">
+				<!-- Zone where the episode list will be show -->
+			</div>
 
             <!--<!-- Script google Ad- ->
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -98,6 +103,10 @@
 		</aside>
 
 		<main>
+			<!-- The act name content -->	
+			<!-- Maybe in episode 3<p id="lblActNumber">Act. 1</p>
+			<p id="lblActName">The First Ghost</p>-->
+			
 			<div class="svgHolder" id="div_svgHolder">
 				<svg id="svgRegion" version="1.1"
 					 xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink" viewbox="0 0 800 600">
@@ -209,12 +218,12 @@
 						
 						
 						<p class="about">
-							E-mail:<a href="mailto:amos.silva@gmail.com">amos.silva@gmail.com</a>
+							E-mail: <a href="mailto:amos.silva@gmail.com">amos.silva@gmail.com</a>
 						</p>
 						
 						<p class="about">
-							tumblr:<br />
-							<iframe class="btn" frameborder="0" border="0" scrolling="no" allowtransparency="true" height="20" width="200" src="https://platform.tumblr.com/v2/follow_button.html?type=follow-blog&amp;tumblelog=amosbatista.tumblr.com&amp;color=white"></iframe>
+							My site:<br />
+							<iframe class="btn" frameborder="0" border="0" scrolling="no" allowtransparency="true" height="20" width="200" src="https://platform.tumblr.com/v2/follow_button.html?type=follow-blog&amp;tumblelog=amosbatista&amp;color=black"></iframe>
 						</p>
 						<p class="about">
 							Facebook:<br />
@@ -251,6 +260,12 @@
 			</p>
 			
 		</section>
+		
+		<foot>
+			<p class="tutorial">
+				<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">The Ghostships</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://theghostships.com/" property="cc:attributionName" rel="cc:attributionURL">Amós Batista</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+			</p>
+		</foot>
 
 	</body>
 </html>

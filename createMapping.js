@@ -12,11 +12,14 @@ var DOMTxtFilePath;
 
 
 /*Objects*/
-function _episode (episodenumber, idiom, prologue){
+function _episode (episodenumber, idiom, prologue, title, imgHeaderPath){
 	this.prologue = prologue;
 	this.pages = new Array();
 	this.idiom = idiom;
 	this.episodenumber = episodenumber;
+	this.Prologue = prologue;
+	this.Title = title;
+	this.ImgHeaderPath = imgHeaderPath;
 	this.AddPage = function(newPage){
 		this.pages.push(newPage);
 	}
@@ -77,7 +80,14 @@ function init(){
 	document.addEventListener("keydown", ChangeMapByPress, false);
 }
 function startNewEpisode(){
-	actualEpisode = new _episode(document.getElementById("txtEpisodeNumber").value, "en", document.getElementById("prologue").value);
+	var txtEpisodeNumber = document.getElementById("txtEpisodeNumber").value;
+	var idiom = "en";
+	var prologue = document.getElementById("prologue").value;
+	var title = document.getElementById("txttitle").value;
+	var imgHeaderTitle = document.getElementById("episodeImagePath").value;
+	
+	
+	actualEpisode = new _episode(txtEpisodeNumber, "en", prologue, title, imgHeaderTitle);
 	DOMParaghResult.innerText = "A new episode has been created, and the map cleared";
 }
 function loadImageFromPath(){
@@ -88,6 +98,9 @@ function loadImageFromPath(){
 }
 function setImagePath(imagePath){
 	imgObject.setAttribute("xlink:href",imagePath);
+}
+function loadEpisodeImageFromPath(){
+	document.getElementById("episodeHeader").setAttribute("src", document.getElementById("episodeImagePath").value);
 }
 
 function RaiseScale(){
